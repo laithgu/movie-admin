@@ -7,6 +7,7 @@
 <!--      <el-input v-model="category" placeholder="分类" clearable style="width: 200px" @keyup.enter="search" />-->
       <el-select
           v-model="category"
+          multiple
           clearable
           placeholder="请选择分类"
           style="width: 240px"
@@ -19,6 +20,7 @@
 <!--      <el-input v-model="region" placeholder="地区" clearable style="width: 200px" @keyup.enter="search" />-->
       <el-select
           v-model="region"
+          multiple
           clearable
           placeholder="请选择地区"
           style="width: 240px"
@@ -32,8 +34,8 @@
         <el-option label="泰国" value="泰国" />
         <el-option label="意大利" value="意大利" />
       </el-select>
-      <el-input v-model="duration_min" placeholder="时长最小值" clearable style="width: 220px" @keyup.enter="search" />
-      <el-input v-model="duration_max" placeholder="时长最大值" clearable style="width: 220px" @keyup.enter="search" />
+      <el-input v-model="duration_min" placeholder="时长最小值" clearable style="width: 230px" @keyup.enter="search" />
+      <el-input v-model="duration_max" placeholder="时长最大值" clearable style="width: 230px" @keyup.enter="search" />
       <el-input v-model="year" placeholder="上映时间" clearable style="width: 200px" @keyup.enter="search" />
       <el-input v-model="director" placeholder="导演" clearable style="width: 200px" @keyup.enter="search" />
       <el-input v-model="actor" placeholder="演员" clearable style="width: 200px" @keyup.enter="search" />
