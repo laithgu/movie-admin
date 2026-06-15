@@ -100,7 +100,7 @@ import { ElMessage } from 'element-plus'
 const movies = ref([])
 const loading = ref(false)
 const keyword = ref('')
-const category = ref('')
+const category = ref([])
 const region = ref([])
 const duration_min = ref('')
 const duration_max = ref('')
@@ -144,7 +144,7 @@ function search() {
 
 function resetSearch() {
   keyword.value = ''
-  category.value = ''
+  category.value = []
   region.value = []
   duration_min.value = ''
   duration_max.value = ''
