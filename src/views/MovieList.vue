@@ -4,8 +4,34 @@
 
     <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center">
       <el-input v-model="keyword" placeholder="电影名" clearable style="width: 200px" @keyup.enter="search" />
-      <el-input v-model="category" placeholder="类型" clearable style="width: 200px" @keyup.enter="search" />
-      <el-input v-model="region" placeholder="地区" clearable style="width: 200px" @keyup.enter="search" />
+<!--      <el-input v-model="category" placeholder="分类" clearable style="width: 200px" @keyup.enter="search" />-->
+      <el-select
+          v-model="category"
+          clearable
+          placeholder="请选择分类"
+          style="width: 240px"
+      >
+        <el-option label="动作" value="动作" />
+        <el-option label="科幻" value="科幻" />
+        <el-option label="喜剧" value="喜剧" />
+        <el-option label="悬疑" value="悬疑" />
+      </el-select>
+<!--      <el-input v-model="region" placeholder="地区" clearable style="width: 200px" @keyup.enter="search" />-->
+      <el-select
+          v-model="region"
+          clearable
+          placeholder="请选择地区"
+          style="width: 240px"
+      >
+        <el-option label="中国" value="中国" />
+        <el-option label="中国大陆" value="中国大陆" />
+        <el-option label="美国" value="美国" />
+        <el-option label="英国" value="英国" />
+        <el-option label="法国" value="法国" />
+        <el-option label="日本" value="日本" />
+        <el-option label="泰国" value="泰国" />
+        <el-option label="意大利" value="意大利" />
+      </el-select>
       <el-input v-model="duration_min" placeholder="时长最小值" clearable style="width: 220px" @keyup.enter="search" />
       <el-input v-model="duration_max" placeholder="时长最大值" clearable style="width: 220px" @keyup.enter="search" />
       <el-input v-model="year" placeholder="上映时间" clearable style="width: 200px" @keyup.enter="search" />
@@ -72,7 +98,7 @@ import { ElMessage } from 'element-plus'
 const movies = ref([])
 const loading = ref(false)
 const keyword = ref('')
-const category = ref([])
+const category = ref('')
 const region = ref([])
 const duration_min = ref('')
 const duration_max = ref('')
@@ -116,7 +142,7 @@ function search() {
 
 function resetSearch() {
   keyword.value = ''
-  category.value = []
+  category.value = ''
   region.value = []
   duration_min.value = ''
   duration_max.value = ''
