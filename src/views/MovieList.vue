@@ -94,7 +94,8 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { getMovies, exportMovies } from '@/api/movie'
+import { getMovies } from '@/api/movie'
+import { createDownload } from '@/api/downloads' // @一般表示src目录
 import { ElMessage } from 'element-plus'
 
 const movies = ref([])
@@ -159,22 +160,17 @@ function resetSearch() {
 
 async function handleExport() {
   try {
-    const res = await exportMovies({
+    await createDownload({
       keyword: keyword.value,
       category: category.value,
-      region:region.value,
-      duration_min:duration_min.value,
-      duration_max:duration_max.value,
-      year:year.value,
-      director:director.value,
-      actor:actor.value})
-    const url = window.URL.createObjectURL(new Blob([res.data]))
-    const link = document.createElement('a')
-    link.href = url
-    link.download = 'movies_export.xlsx'
-    link.click()
-    window.URL.revokeObjectURL(url)
-    ElMessage.success('导出成功')
+      region: region.value,
+      duration_min: duration_min.value,
+      duration_max: duration_max.value,
+      year: year.value,
+      director: director.value,
+      actor: actor.value
+    })
+    ElMessage.success('导出成功，请到下载中心查看')
   } catch (err) {
     ElMessage.error('导出失败')
   }
