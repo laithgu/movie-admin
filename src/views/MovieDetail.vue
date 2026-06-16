@@ -1,6 +1,6 @@
 <template>
   <div style="padding: 20px" v-loading="loading">
-    <el-button @click="$router.push('/')" style="margin-bottom: 16px">← 返回列表</el-button>
+    <el-button @click="$router.push('/movies')" style="margin-bottom: 16px">← 返回列表</el-button>
 
     <template v-if="movie">
       <h2>{{ movie.name }}</h2>

@@ -31,7 +31,7 @@ const activeMenu = computed(() => {
             router
             style="height: 100%; border-right: none"
         >
-          <el-menu-item index="/">电影列表</el-menu-item>
+          <el-menu-item index="/movies">电影列表</el-menu-item>
           <el-menu-item index="/downloads">下载中心</el-menu-item>
         </el-menu>
       </el-aside>
