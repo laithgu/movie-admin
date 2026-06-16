@@ -207,7 +207,7 @@ async function handleExport() {
       director: director.value,
       actor: actor.value,
     })
-    ElMessage.success('导出成功，请到下载中心查看')
+    ElMessage.success('导出任务已创建，请稍后到下载中心查看')
   } catch (err) {
     ElMessage.error('导出失败')
   }

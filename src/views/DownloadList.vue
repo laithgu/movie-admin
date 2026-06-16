@@ -13,11 +13,21 @@
     <el-table :data="downloads" v-loading="loading" border stripe>
       <el-table-column prop="id" label="ID" width="70" />
       <el-table-column prop="name" label="文件名" min-width="200" />
+      <el-table-column label="状态" width="100" align="center">
+        <template #default="{ row }">
+          <el-tag v-if="row.status === 'pending'" type="warning">处理中</el-tag>
+          <el-tag v-else-if="row.status === 'completed'" type="success">已完成</el-tag>
+          <el-tag v-else-if="row.status === 'failed'" type="danger">失败</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="url" label="下载链接" min-width="300" show-overflow-tooltip />
-      <el-table-column prop="created_at" label="创建时间" width="180" />
+      <el-table-column label="创建时间" width="180">
+        <template #default="{ row }">{{ dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}</template>
+      </el-table-column>
       <el-table-column label="操作" width="80">
         <template #default="{ row }">
-          <el-button link type="primary" @click="handleDownload(row.url)">下载</el-button>
+          <el-button v-if="row.status === 'completed'" link type="primary" @click="handleDownload(row.url)">下载</el-button>
+          <span v-else style="color: #999; font-size: 12px">-</span>
         </template>
       </el-table-column>
     </el-table>
@@ -39,6 +49,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 import { getDownloads } from '@/api/downloads'
 
