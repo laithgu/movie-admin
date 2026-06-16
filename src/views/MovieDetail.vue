@@ -34,7 +34,7 @@
             <el-button link type="danger" size="small" @click="removeComment(c.id)">删除</el-button>
           </div>
           <div style="margin-top: 8px">{{ c.content }}</div>
-          <div style="color: #999; font-size: 12px; margin-top: 4px">{{ c.created_at }}</div>
+          <div style="color: #999; font-size: 12px; margin-top: 4px">{{ dayjs(c.created_at).format('YYYY-MM-DD HH:mm:ss') }}</div>
         </div>
 
         <el-empty v-if="comments.length === 0" description="暂无评论" />
@@ -45,6 +45,7 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import dayjs from 'dayjs'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getMovie } from '@/api/movie'
