@@ -18,7 +18,7 @@
       </el-descriptions>
       <!-- 评论区 -->
       <el-card style="margin-top: 16px">
-        <template #header>评论 ({{ comments.length }})</template>
+        <template #header>评论 ({{ commentTotal }})</template>
 
         <!-- 发布评论 -->
         <div style="display: flex; gap: 12px; margin-bottom: 16px">
@@ -38,6 +38,20 @@
         </div>
 
         <el-empty v-if="comments.length === 0" description="暂无评论" />
+
+        <!-- 分页 -->
+        <div style="display: flex; justify-content: flex-end; margin-top: 16px">
+          <el-pagination
+            v-model:current-page="commentPage"
+            v-model:page-size="commentPerPage"
+            :total="commentTotal"
+            :page-sizes="[10, 20, 50]"
+            layout="total, sizes, prev, pager, next"
+            background
+            @size-change="fetchComments"
+            @current-change="fetchComments"
+          />
+        </div>
       </el-card>
     </template>
   </div>
@@ -55,13 +69,20 @@ const route = useRoute()
 const movie = ref(null)
 const loading = ref(false)
 const comments = ref([])
+const commentPage = ref(1)
+const commentPerPage = ref(10)
+const commentTotal = ref(0)
 const newContent = ref('')
 const newAuthor = ref('')
 
 
 async function fetchComments() {
-  const res = await getComments(route.params.id)
+  const res = await getComments(route.params.id, {
+    page: commentPage.value,
+    per_page: commentPerPage.value,
+  })
   comments.value = res.data.data
+  commentTotal.value = res.data.meta.total
 }
 
 async function submitComment() {
