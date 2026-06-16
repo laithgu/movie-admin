@@ -16,6 +16,29 @@
         <el-descriptions-item label="演员" :span="2">{{ (movie.actors || []).join('、') || '-' }}</el-descriptions-item>
         <el-descriptions-item label="剧情" :span="2">{{ movie.drama || '暂无' }}</el-descriptions-item>
       </el-descriptions>
+      <!-- 评论区 -->
+      <el-card style="margin-top: 16px">
+        <template #header>评论 ({{ comments.length }})</template>
+
+        <!-- 发布评论 -->
+        <div style="display: flex; gap: 12px; margin-bottom: 16px">
+          <el-input v-model="newAuthor" placeholder="昵称" style="width: 150px" />
+          <el-input v-model="newContent" placeholder="说点什么..." />
+          <el-button type="primary" @click="submitComment">发布</el-button>
+        </div>
+
+        <!-- 评论列表 -->
+        <div v-for="c in comments" :key="c.id" style="border-bottom: 1px solid #eee; padding: 12px 0">
+          <div style="display: flex; justify-content: space-between">
+            <strong>{{ c.author }}</strong>
+            <el-button link type="danger" size="small" @click="removeComment(c.id)">删除</el-button>
+          </div>
+          <div style="margin-top: 8px">{{ c.content }}</div>
+          <div style="color: #999; font-size: 12px; margin-top: 4px">{{ c.created_at }}</div>
+        </div>
+
+        <el-empty v-if="comments.length === 0" description="暂无评论" />
+      </el-card>
     </template>
   </div>
 </template>
@@ -25,16 +48,56 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { getMovie } from '@/api/movie'
+import { getComments, createComment, deleteComment } from '@/api/comment'
 
 const route = useRoute()
 const movie = ref(null)
 const loading = ref(false)
+const comments = ref([])
+const newContent = ref('')
+const newAuthor = ref('')
+
+
+async function fetchComments() {
+  const res = await getComments(route.params.id)
+  comments.value = res.data.data
+}
+
+async function submitComment() {
+  if (!newAuthor.value || !newContent.value) {
+    ElMessage.warning('昵称和内容都要填')
+    return
+  }
+  try {
+    await createComment(route.params.id, {
+      author: newAuthor.value,
+      content: newContent.value,
+    })
+    ElMessage.success('发布成功')
+    newContent.value = ''
+    fetchComments()    // 重新拉评论列表
+  } catch (err) {
+    ElMessage.error('发布失败')
+  }
+}
+
+async function removeComment(id) {
+  try {
+    await deleteComment(id)
+    ElMessage.success('删除成功')
+    fetchComments()
+  } catch (err) {
+    ElMessage.error('删除失败')
+  }
+}
+
 
 onMounted(async () => {
   loading.value = true
   try {
     const res = await getMovie(route.params.id)
     movie.value = res.data.data
+    fetchComments()
   } catch (err) {
     ElMessage.error('加载失败')
   } finally {
