@@ -1,8 +1,13 @@
 <script setup>
 import { computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
+import { logout } from '@/api/auth'
+import { ElMessage } from 'element-plus'
 
-const route = useRoute()
+const route = useRoute() // 获取当前路由信息
+const router = useRouter() // 控制路由跳转
+
+const isLoginPage = computed(() => route.path === '/login')
 
 // 根据当前路径，高亮对应的菜单
 const activeMenu = computed(() => {
@@ -11,13 +16,27 @@ const activeMenu = computed(() => {
   }
   return route.path
 })
+
+async function handleLogout() {
+  try {
+    await logout()
+  } finally {
+    localStorage.removeItem('token')
+    ElMessage.success('已退出登录')
+    router.push('/login')
+  }
+}
 </script>
 
 <template>
-  <el-container style="height: 100vh">
+  <router-view v-if="isLoginPage" />
+
+  <el-container v-else style="height: 100vh">
     <!-- 顶部 -->
-    <el-header style="background: #001529; color: #fff; font-size: 18px; font-weight: 600; line-height: 60px; padding: 0 20px">
-      电影管理后台
+    <el-header style="background: #001529; color: #fff; font-size: 18px; font-weight: 600; line-height: 60px; padding: 0 20px; display: flex; justify-content: space-between;
+  align-items: center">
+      <span>电影管理后台</span>
+      <el-button link type="primary" style="color: #fff" @click="handleLogout">退出登录</el-button>
     </el-header>
 
     <el-container>
@@ -33,6 +52,7 @@ const activeMenu = computed(() => {
         >
           <el-menu-item index="/movies">电影列表</el-menu-item>
           <el-menu-item index="/downloads">下载中心</el-menu-item>
+          <el-menu-item index="/users">用户管理</el-menu-item>
         </el-menu>
       </el-aside>
 
