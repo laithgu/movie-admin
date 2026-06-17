@@ -26,6 +26,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="url" label="下载链接" min-width="300" show-overflow-tooltip />
+        <el-table-column label="操作者" width="120" show-overflow-tooltip>
+          <template #default="{ row }">{{ row.user?.nickname || row.user?.name || row.operator_name || '-' }}</template>
+        </el-table-column>
         <el-table-column label="创建时间" width="180">
           <template #default="{ row }">{{ dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}</template>
         </el-table-column>
