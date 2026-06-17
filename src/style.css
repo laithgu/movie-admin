@@ -1,2 +1,90 @@
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, sans-serif; }
+:root {
+  --app-primary: #1677ff;
+  --app-bg: #f5f7fb;
+  --app-sidebar-bg: #001529;
+  --app-header-bg: #ffffff;
+  --app-text: #303133;
+  --app-text-secondary: #606266;
+  --app-border: #ebeef5;
+  --app-radius: 10px;
+  --app-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: var(--app-text);
+  background: var(--app-bg);
+}
+
+.page {
+  padding: 20px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.page-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--app-text);
+}
+
+.filter-card {
+  margin-bottom: 16px;
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+.table-card {
+  border-radius: var(--app-radius);
+  box-shadow: var(--app-shadow);
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 12px;
+  align-items: center;
+}
+
+.filter-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.pagination-wrap {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.pagination-wrap .el-pagination {
+  width: 100%;
+  justify-content: flex-end;
+}
+
+.filter-card .el-form-item {
+  margin-bottom: 12px;
+  margin-right: 12px;
+}
+
+.el-card {
+  border: none;
+}
+
+.el-table {
+  border-radius: 8px;
+}

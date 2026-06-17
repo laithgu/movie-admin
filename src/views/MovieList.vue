@@ -1,11 +1,13 @@
 <template>
-  <div class="movie-list">
-    <h2 class="page-title">电影列表</h2>
+  <div class="page">
+    <div class="page-header">
+      <h2 class="page-title">电影列表</h2>
+    </div>
 
     <!-- 筛选区，用 form 排布，自动换行 -->
     <el-card shadow="never" class="filter-card">
-      <el-form :inline="true" :model="form" label-width="60px" @submit.prevent="search">
-        <el-form-item label="电影名">
+      <el-form :inline="true" :model="form" label-width="60px" class="filter-form" @submit.prevent="search">
+        <el-form-item label="名称">
           <el-input v-model="keyword" placeholder="电影名" clearable style="width: 180px" @keyup.enter="search" />
         </el-form-item>
 
@@ -227,33 +229,9 @@ onMounted(fetchData)
 </script>
 
 <style scoped>
-.movie-list {
-  padding: 20px;
-}
-
-.page-title {
-  margin-bottom: 16px;
-  font-size: 20px;
-  color: #303133;
-}
-
-.filter-card {
-  margin-bottom: 16px;
-}
-
 /* 让 form-item 之间的间距更紧凑，去掉底部多余空间 */
 .filter-card :deep(.el-form-item) {
   margin-bottom: 12px;
   margin-right: 12px;
-}
-
-.table-card {
-  margin-bottom: 16px;
-}
-
-.pagination-wrap {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 16px;
 }
 </style>

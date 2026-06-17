@@ -1,39 +1,44 @@
 <template>
-  <div style="padding: 20px">
-    <h2 style="margin-bottom: 16px">文件下载列表</h2>
-
-    <div style="margin-bottom: 16px; display: flex; gap: 12px; align-items: center">
-      <el-input v-model="name" placeholder="文件名" clearable style="width: 200px" @keyup.enter="search" />
-      <el-date-picker v-model="start_date" type="date" value-format="YYYY-MM-DD" placeholder="开始时间" style="width: 200px" />
-      <el-date-picker v-model="end_date" type="date" value-format="YYYY-MM-DD" placeholder="结束时间" style="width: 200px" />
-      <el-button type="primary" @click="search">搜索</el-button>
-      <el-button @click="resetSearch">重置</el-button>
+  <div class="page">
+    <div class="page-header">
+      <h2 class="page-title">文件下载列表</h2>
     </div>
 
-    <el-table :data="downloads" v-loading="loading" border stripe>
-      <el-table-column prop="id" label="ID" width="70" />
-      <el-table-column prop="name" label="文件名" min-width="200" />
-      <el-table-column label="状态" width="100" align="center">
-        <template #default="{ row }">
-          <el-tag v-if="row.status === 'pending'" type="warning">处理中</el-tag>
-          <el-tag v-else-if="row.status === 'completed'" type="success">已完成</el-tag>
-          <el-tag v-else-if="row.status === 'failed'" type="danger">失败</el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column prop="url" label="下载链接" min-width="300" show-overflow-tooltip />
-      <el-table-column label="创建时间" width="180">
-        <template #default="{ row }">{{ dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}</template>
-      </el-table-column>
-      <el-table-column label="操作" width="80">
-        <template #default="{ row }">
-          <el-button v-if="row.status === 'completed'" link type="primary" @click="handleDownload(row.url)">下载</el-button>
-          <span v-else style="color: #999; font-size: 12px">-</span>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-card shadow="never" class="filter-card">
+      <div class="filter-row">
+        <el-input v-model="name" placeholder="文件名" clearable style="width: 200px" @keyup.enter="search" />
+        <el-date-picker v-model="start_date" type="date" value-format="YYYY-MM-DD" placeholder="开始时间" style="width: 200px" />
+        <el-date-picker v-model="end_date" type="date" value-format="YYYY-MM-DD" placeholder="结束时间" style="width: 200px" />
+        <el-button type="primary" @click="search">搜索</el-button>
+        <el-button @click="resetSearch">重置</el-button>
+      </div>
+    </el-card>
 
-    <div style="margin-top: 16px; display: flex; justify-content: flex-end">
-      <el-pagination
+    <el-card shadow="never" class="table-card">
+      <el-table :data="downloads" v-loading="loading" border stripe style="width: 100%">
+        <el-table-column prop="id" label="ID" width="70" />
+        <el-table-column prop="name" label="文件名" min-width="200" />
+        <el-table-column label="状态" width="100" align="center">
+          <template #default="{ row }">
+            <el-tag v-if="row.status === 'pending'" type="warning">处理中</el-tag>
+            <el-tag v-else-if="row.status === 'completed'" type="success">已完成</el-tag>
+            <el-tag v-else-if="row.status === 'failed'" type="danger">失败</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="url" label="下载链接" min-width="300" show-overflow-tooltip />
+        <el-table-column label="创建时间" width="180">
+          <template #default="{ row }">{{ dayjs(row.created_at).format('YYYY-MM-DD HH:mm:ss') }}</template>
+        </el-table-column>
+        <el-table-column label="操作" width="80">
+          <template #default="{ row }">
+            <el-button v-if="row.status === 'completed'" link type="primary" @click="handleDownload(row.url)">下载</el-button>
+            <span v-else style="color: #999; font-size: 12px">-</span>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <div class="pagination-wrap">
+        <el-pagination
           v-model:current-page="page"
           v-model:page-size="perPage"
           :total="total"
@@ -42,8 +47,9 @@
           background
           @size-change="fetchData"
           @current-change="fetchData"
-      />
-    </div>
+        />
+      </div>
+    </el-card>
   </div>
 </template>
 
