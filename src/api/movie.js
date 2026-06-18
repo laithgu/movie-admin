@@ -10,11 +10,6 @@ export function getMovie(id) {
   return http.get('/movies/' + id)
 }
 
-// 导出 Excel
-export function exportMovies(params) {
-  return http.get('/movies/export', { params: params, responseType: 'blob' })
-}
-
 // 删除电影
 export function deleteMovie(id) {
   return http.delete('/movies/' + id)
