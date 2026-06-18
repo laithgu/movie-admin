@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import { login } from '@/api/auth'
+import { setTokens } from '@/utils/auth'
 
 const router = useRouter()
 const email = ref('')
@@ -20,7 +21,8 @@ async function handleLogin() {
       password: password.value,
     })
 
-    localStorage.setItem('token', res.data.data.token)
+    // 后端返回 { data: { access_token, refresh_token, user } }
+    setTokens(res.data.data)
     ElMessage.success('登录成功')
     router.push('/movies')
   } catch (err) {

@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { logout } from '@/api/auth'
+import { clearTokens } from '@/utils/auth'
 import { ElMessage } from 'element-plus'
 
 const route = useRoute() // 获取当前路由信息
@@ -21,7 +22,8 @@ async function handleLogout() {
   try {
     await logout()
   } finally {
-    localStorage.removeItem('token')
+    // 不管接口成功失败，本地都清掉
+    clearTokens()
     ElMessage.success('已退出登录')
     router.push('/login')
   }

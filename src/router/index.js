@@ -4,6 +4,7 @@ import MovieDetail from '@/views/MovieDetail.vue'
 import DownloadList from '@/views/DownloadList.vue'
 import UserList from '@/views/UserList.vue'
 import Login from '@/views/Login.vue'
+import { getAccessToken } from '@/utils/auth'
 
 const routes = [
   { path: '/', redirect: '/movies' },
@@ -19,9 +20,9 @@ const router = createRouter({
   routes,
 })
 
-// 没有 token 不能进入后台页面
+// 没有 access_token 不能进入后台页面
 router.beforeEach((to) => {
-  const token = localStorage.getItem('token')
+  const token = getAccessToken()
 
   if (to.path !== '/login' && !token) {
     return '/login'
