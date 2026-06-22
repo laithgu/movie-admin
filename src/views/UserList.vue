@@ -91,6 +91,7 @@ async function fetchData() {
     users.value = res.data.data
     total.value = res.data.meta.total
   } catch (err) {
+    if (err.handled) return
     ElMessage.error('加载失败')
   } finally {
     loading.value = false

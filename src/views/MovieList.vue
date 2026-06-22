@@ -171,6 +171,7 @@ async function fetchData() {
     movies.value = res.data.data
     total.value = res.data.meta.total
   } catch (err) {
+    if (err.handled) return
     ElMessage.error('加载失败')
   } finally {
     loading.value = false
@@ -211,6 +212,7 @@ async function handleExport() {
     })
     ElMessage.success('导出任务已创建，请稍后到下载中心查看')
   } catch (err) {
+    if (err.handled) return
     ElMessage.error('导出失败')
   }
 }
@@ -221,6 +223,7 @@ async function handleDelete(id) {
     ElMessage.success('删除成功')
     fetchData()
   } catch (err) {
+    if (err.handled) return        // 403 等已被拦截器统一处理
     ElMessage.error('删除失败')
   }
 }

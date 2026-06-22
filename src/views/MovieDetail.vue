@@ -99,6 +99,7 @@ async function submitComment() {
     newContent.value = ''
     fetchComments()    // 重新拉评论列表
   } catch (err) {
+    if (err.handled) return
     ElMessage.error('发布失败')
   }
 }
@@ -109,6 +110,7 @@ async function removeComment(id) {
     ElMessage.success('删除成功')
     fetchComments()
   } catch (err) {
+    if (err.handled) return        // 403 等已被拦截器统一处理
     ElMessage.error('删除失败')
   }
 }
@@ -121,6 +123,7 @@ onMounted(async () => {
     movie.value = res.data.data
     fetchComments()
   } catch (err) {
+    if (err.handled) return
     ElMessage.error('加载失败')
   } finally {
     loading.value = false

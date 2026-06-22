@@ -70,6 +70,13 @@ http.interceptors.response.use(
         // 没有 response（网络错误等）直接抛
         if (!response) return Promise.reject(error)
 
+        // 403：Pundit 鉴权失败 —— 不是登录态问题，是没权限
+        if (response.status === 403) {
+            ElMessage.error(response.data?.error || '无权限执行此操作')
+            error.handled = true
+            return Promise.reject(error)
+        }
+
         // 不是 401，或者这条请求已经重试过了，直接放过
         if (response.status !== 401 || config._retried) {
             return Promise.reject(error)
