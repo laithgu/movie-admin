@@ -52,6 +52,8 @@ function tryRefresh() {
         .then((res) => {
             const tokens = res.data.data
             setTokens(tokens)
+            // 通知 WebSocket 用新 token 重连（旧 WS 还在用过期 token，重连断线时会被 reject）
+            window.dispatchEvent(new CustomEvent('auth:token-refreshed'))
             return tokens.access_token
         })
         .finally(() => {

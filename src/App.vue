@@ -4,17 +4,15 @@ import { useRoute, useRouter } from 'vue-router'
 import { logout } from '@/api/auth'
 import { clearTokens } from '@/utils/auth'
 import { ElMessage } from 'element-plus'
+import NotificationBell from '@/components/NotificationBell.vue'
 
-const route = useRoute() // 获取当前路由信息
-const router = useRouter() // 控制路由跳转
+const route = useRoute()
+const router = useRouter()
 
 const isLoginPage = computed(() => route.path === '/login')
 
-// 根据当前路径，高亮对应的菜单
 const activeMenu = computed(() => {
-  if (route.path.startsWith('/movies')) {
-    return '/movies'
-  }
+  if (route.path.startsWith('/movies')) return '/movies'
   return route.path
 })
 
@@ -22,7 +20,6 @@ async function handleLogout() {
   try {
     await logout()
   } finally {
-    // 不管接口成功失败，本地都清掉
     clearTokens()
     ElMessage.success('已退出登录')
     router.push('/login')
@@ -36,7 +33,11 @@ async function handleLogout() {
   <el-container v-else class="app-layout">
     <el-header class="app-header">
       <div class="app-logo">电影管理后台</div>
-      <el-button class="logout-btn" link @click="handleLogout">退出登录</el-button>
+
+      <div class="header-right">
+        <NotificationBell />
+        <el-button class="logout-btn" link @click="handleLogout">退出登录</el-button>
+      </div>
     </el-header>
 
     <el-container>
@@ -82,6 +83,12 @@ async function handleLogout() {
   font-size: 18px;
   font-weight: 700;
   color: var(--app-text);
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
 }
 
 .logout-btn {
